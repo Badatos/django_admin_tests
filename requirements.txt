@@ -1,1 +1,2 @@
 git+https://github.com/django/django.git@master#egg=django
+gunicorn==20.0.4
