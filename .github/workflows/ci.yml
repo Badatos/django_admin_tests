@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: 3.9
       - id: nvm
-        run: echo "##NVMRC $(cat .nvmrc)" >> $GITHUB_OUTPUT
+        run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
       - uses: actions/setup-node@v3
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
