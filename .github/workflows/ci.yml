@@ -10,16 +10,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.9
       - id: nvm
-        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
-      - uses: actions/setup-node@v2-beta
+        run: echo "##NVMRC $(cat .nvmrc)" >> $GITHUB_OUTPUT
+      - uses: actions/setup-node@v3
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -37,7 +37,7 @@ jobs:
       - run: npm run test
       - run: node pa11y/report.js
       - run: mv pa11y/report.html pa11y/index.html
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: pa11y
           path: pa11y
@@ -47,9 +47,9 @@ jobs:
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-      - uses: JamesIves/github-pages-deploy-action@4.0.0
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+      - uses: JamesIves/github-pages-deploy-action@4.4.1
         with:
           branch: gh-pages
           folder: pa11y
